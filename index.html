@@ -1,1103 +1,811 @@
 <!DOCTYPE html>
-<html lang="en" data-textsize="normal">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SkyeMoz Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* ════════════════════════════════════════
-   SKYEMOZ HUB — AMONG US STYLE
-   Black + Neon Green / Monospace / Raw
-   ════════════════════════════════════════ */
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg:          #0b0b0b;
-  --bg2:         #111111;
-  --bg3:         #181818;
-  --bg4:         #1e1e1e;
-  --green:       #39ff14;
-  --green-dim:   #27b30e;
-  --green-dark:  #0d3d05;
-  --green-glow:  rgba(57,255,20,0.12);
-  --white:       #e8e8e8;
-  --gray:        #888888;
-  --gray-dim:    #444444;
-  --red:         #ff3333;
-  --border:      #222222;
-  --font:        'Courier New', Courier, monospace;
-}
-
-html[data-textsize="small"]  { font-size: 12px; }
-html[data-textsize="normal"] { font-size: 14px; }
-html[data-textsize="large"]  { font-size: 16px; }
-
-html, body {
-  background: var(--bg);
-  color: var(--white);
-  font-family: var(--font);
-  font-size: 1rem;
-  min-height: 100vh;
-  line-height: 1.5;
-  overflow-x: hidden;
-}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: var(--green-dim); }
-
-/* ════════════════════
-   SCREENS
-   ════════════════════ */
-.screen { display: none; min-height: 100vh; flex-direction: column; }
-.screen.active { display: flex; }
-
-/* ════════════════════
-   AUTH SCREEN
-   ════════════════════ */
-#auth-screen {
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: #000;
-}
-
-.auth-box {
-  width: 100%;
-  max-width: 400px;
-  background: var(--bg2);
-  border: 1px solid var(--green);
-  padding: 36px 30px;
-  animation: fadeUp 0.3s ease;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.auth-logo {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.auth-logo .logo-sq {
-  display: inline-block;
-  width: 52px;
-  height: 52px;
-  background: var(--green-dark);
-  border: 2px solid var(--green);
-  color: var(--green);
-  font-size: 1.6rem;
-  line-height: 52px;
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.auth-logo h1 {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: var(--green);
-  letter-spacing: 0.18em;
-  margin-bottom: 3px;
-}
-
-.auth-logo p {
-  font-size: 0.68rem;
-  color: var(--gray);
-  letter-spacing: 0.22em;
-}
-
-/* ── Auth tabs ── */
-.auth-tabs {
-  display: flex;
-  margin-bottom: 22px;
-  border: 1px solid var(--border);
-}
-
-.auth-tab {
-  flex: 1;
-  padding: 9px;
-  background: transparent;
-  border: none;
-  color: var(--gray);
-  font-family: var(--font);
-  font-size: 0.78rem;
-  font-weight: bold;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.auth-tab.active {
-  background: var(--green-dark);
-  color: var(--green);
-  border-bottom: 2px solid var(--green);
-}
-
-.auth-tab:hover:not(.active) { color: var(--white); }
-
-/* ── Fields ── */
-.field {
-  margin-bottom: 14px;
-}
-
-.field label {
-  display: block;
-  font-size: 0.68rem;
-  color: var(--gray);
-  letter-spacing: 0.14em;
-  margin-bottom: 5px;
-}
-
-.field input {
-  width: 100%;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  color: var(--white);
-  font-family: var(--font);
-  font-size: 0.9rem;
-  padding: 10px 12px;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-.field input:focus { border-color: var(--green); }
-.field input::placeholder { color: var(--gray-dim); }
-
-/* ── Buttons ── */
-.btn-green {
-  background: var(--bg);
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 0.12em;
-  padding: 11px 18px;
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-decoration: none;
-}
-
-.btn-green:hover { background: var(--green); color: #000; }
-
-.btn-red {
-  background: transparent;
-  border: 1px solid var(--red);
-  color: var(--red);
-  font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 0.12em;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-}
-
-.btn-red:hover { background: var(--red); color: #000; }
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--gray-dim);
-  color: var(--gray);
-  font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 0.12em;
-  padding: 11px 18px;
-  cursor: pointer;
-  transition: border-color 0.12s, color 0.12s;
-}
-
-.btn-outline:hover { border-color: var(--white); color: var(--white); }
-
-.btn-full  { width: 100%; }
-.btn-row   { display: flex; gap: 10px; margin-top: 4px; }
-.btn-row > * { flex: 1; }
-
-/* ── Divider ── */
-.divider {
-  text-align: center;
-  color: var(--gray-dim);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  margin: 16px 0;
-}
-
-/* ── Messages ── */
-.msg-error {
-  background: rgba(255,51,51,0.07);
-  border: 1px solid var(--red);
-  color: var(--red);
-  font-size: 0.78rem;
-  padding: 8px 12px;
-  margin-bottom: 14px;
-  letter-spacing: 0.05em;
-  display: none;
-}
-
-.msg-load {
-  background: rgba(57,255,20,0.05);
-  border: 1px solid var(--green-dim);
-  color: var(--green);
-  font-size: 0.78rem;
-  padding: 8px 12px;
-  margin-bottom: 14px;
-  letter-spacing: 0.12em;
-  text-align: center;
-  display: none;
-}
-
-/* ════════════════════
-   MAIN SCREEN
-   ════════════════════ */
-
-/* ── Top Bar ── */
-.topbar {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--green);
-  padding: 8px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-
-.topbar-brand {
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: var(--green);
-  letter-spacing: 0.14em;
-}
-
-.topbar-brand span {
-  color: var(--gray);
-  font-size: 0.7rem;
-  margin-left: 6px;
-}
-
-.topbar-user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.78rem;
-}
-
-.topbar-user .username { color: var(--white); font-weight: bold; }
-.topbar-user .sep { color: var(--gray-dim); }
-.topbar-user .coins { color: var(--green); font-weight: bold; }
-
-/* ── Layout ── */
-.layout {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-}
-
-/* ── Nav Panel ── */
-.nav-panel {
-  width: 190px;
-  background: var(--bg2);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  padding: 12px 0;
-}
-
-.nav-section-label {
-  font-size: 0.62rem;
-  color: var(--gray-dim);
-  letter-spacing: 0.2em;
-  padding: 0 14px 8px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 6px;
-}
-
-.nav-btn {
-  display: block;
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-left: 3px solid transparent;
-  color: var(--gray);
-  font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-  padding: 10px 14px;
-  text-align: left;
-  cursor: pointer;
-  transition: color 0.12s, background 0.12s, border-color 0.12s;
-}
-
-.nav-btn:hover {
-  color: var(--green);
-  background: var(--green-glow);
-}
-
-.nav-btn.active {
-  color: var(--green);
-  border-left-color: var(--green);
-  background: var(--green-glow);
-}
-
-.nav-spacer { flex: 1; }
-
-.nav-logout {
-  color: var(--red);
-  border-top: 1px solid var(--border);
-  padding-top: 12px;
-  margin-top: 4px;
-}
-
-.nav-logout:hover {
-  color: #fff;
-  background: rgba(255,51,51,0.07);
-}
-
-/* ── Content Panel ── */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px 28px;
-  min-width: 0;
-}
-
-/* ── Pages ── */
-.page { display: none; animation: fadeUp 0.2s ease; }
-.page.active { display: block; }
-
-.page-title {
-  font-size: 1rem;
-  font-weight: bold;
-  color: var(--green);
-  letter-spacing: 0.14em;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 20px;
-}
-
-.section-label {
-  font-size: 0.62rem;
-  color: var(--gray-dim);
-  letter-spacing: 0.2em;
-  margin: 18px 0 8px;
-}
-
-/* ── Info Block ── */
-.info-block {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-}
-
-.info-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-}
-
-.info-row:last-child { border-bottom: none; }
-
-.info-label {
-  font-size: 0.68rem;
-  color: var(--gray);
-  letter-spacing: 0.12em;
-}
-
-.info-val {
-  font-size: 0.85rem;
-  color: var(--white);
-  font-weight: bold;
-}
-
-.info-val.green   { color: var(--green); }
-.info-val.big     { font-size: 1.8rem; }
-.info-val.uid-txt {
-  font-size: 0.62rem;
-  color: var(--gray);
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* ── Quick Grid ── */
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 4px;
-}
-
-.quick-btn {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  color: var(--gray);
-  font-family: var(--font);
-  font-size: 0.78rem;
-  font-weight: bold;
-  letter-spacing: 0.12em;
-  padding: 18px;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-
-.quick-btn:hover {
-  border-color: var(--green);
-  color: var(--green);
-  background: var(--green-glow);
-}
-
-/* ── Log Box ── */
-.log-box {
-  background: #000;
-  border: 1px solid var(--border);
-  padding: 12px;
-  max-height: 160px;
-  overflow-y: auto;
-  font-size: 0.74rem;
-  line-height: 1.85;
-}
-
-.log-line { display: flex; gap: 8px; }
-.log-time { color: var(--gray-dim); flex-shrink: 0; }
-.log-sys  { color: #4da6ff; }
-.log-ok   { color: var(--green); }
-.log-err  { color: var(--red); }
-.log-warn { color: #ffd166; }
-
-/* ── Placeholder Block ── */
-.placeholder-block {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 48px 24px;
-  text-align: center;
-}
-
-.ph-icon { font-size: 2.6rem; margin-bottom: 12px; }
-.ph-text {
-  font-size: 0.95rem;
-  font-weight: bold;
-  color: var(--white);
-  letter-spacing: 0.16em;
-  margin-bottom: 6px;
-}
-.ph-sub {
-  font-size: 0.72rem;
-  color: var(--gray);
-  letter-spacing: 0.08em;
-  margin-bottom: 16px;
-}
-
-/* ── Toggle Buttons ── */
-.toggle-row {
-  display: flex;
-  gap: 6px;
-}
-
-.toggle-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--gray);
-  font-family: var(--font);
-  font-size: 0.76rem;
-  font-weight: bold;
-  padding: 5px 14px;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-
-.toggle-btn:hover { border-color: var(--green); color: var(--green); }
-
-.toggle-btn.active {
-  background: var(--green-dark);
-  border-color: var(--green);
-  color: var(--green);
-}
-
-/* ── Status dot ── */
-.dot-online {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  background: var(--green);
-  border-radius: 50%;
-  margin-right: 5px;
-  animation: blink 2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-/* ── Responsive ── */
-@media (max-width: 640px) {
-  .nav-panel { width: 46px; }
-  .nav-section-label { display: none; }
-  .nav-btn {
-    padding: 12px;
-    font-size: 0;
-    letter-spacing: 0;
-    text-align: center;
-    border-left: none;
-    border-bottom: 3px solid transparent;
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f0f7f0;
+    --surface: #ffffff;
+    --surface2: #f6faf6;
+    --border: #d4e8d4;
+    --border2: #c0dcc0;
+    --green: #2e7d32;
+    --green-m: #388e3c;
+    --green-l: #4caf50;
+    --green-xl: #81c784;
+    --green-bg: #e8f5e9;
+    --green-glow: rgba(76,175,80,0.18);
+    --text: #1a2e1a;
+    --text2: #4a6a4a;
+    --text3: #7a9a7a;
+    --red: #c62828;
+    --red-bg: #ffebee;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Space Grotesk', sans-serif;
+    --r: 14px;
+    --r-sm: 9px;
+    --shadow: 0 2px 12px rgba(46,125,50,0.08);
+    --shadow-m: 0 4px 24px rgba(46,125,50,0.13);
   }
-  .nav-btn::first-letter { font-size: 1.1rem; }
-  .nav-btn.active { border-bottom-color: var(--green); border-left: none; }
-  .content { padding: 14px; }
-  .quick-grid { grid-template-columns: 1fr; }
-  .topbar { flex-direction: column; align-items: flex-start; gap: 4px; }
-}
+  html, body { height: 100%; font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; }
+
+  /* ── LAYOUT ── */
+  #app { display: none; min-height: 100vh; flex-direction: column; }
+  #app.visible { display: flex; }
+  #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(160deg, #e8f5e9 0%, #f0f7f0 60%, #e0f2e0 100%); }
+  #auth-screen.hidden { display: none; }
+
+  /* ── AUTH CARD ── */
+  .auth-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: 22px;
+    padding: 44px 38px 38px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow-m);
+  }
+  .auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 28px;
+  }
+  .auth-logo-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--green-l), var(--green));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+  .auth-logo h1 { font-size: 1.22rem; font-weight: 700; color: var(--green); letter-spacing: -0.01em; }
+  .auth-logo span { font-size: .82rem; color: var(--text3); display: block; font-weight: 400; }
+
+  .auth-heading { font-size: 1.45rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .auth-sub { font-size: .88rem; color: var(--text2); margin-bottom: 26px; }
+
+  /* Google btn */
+  .g-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    padding: 13px 18px;
+    background: var(--surface);
+    border: 1.5px solid var(--border2);
+    border-radius: var(--r-sm);
+    font-family: var(--sans);
+    font-size: .93rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all .18s;
+    box-shadow: var(--shadow);
+  }
+  .g-btn:hover { border-color: var(--green-l); background: var(--green-bg); transform: translateY(-1px); box-shadow: var(--shadow-m); }
+  .g-btn svg { flex-shrink: 0; }
+
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text3); font-size: .8rem; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Form fields */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: .78rem; font-weight: 600; color: var(--text2); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .06em; }
+  .field input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--r-sm);
+    font-family: var(--sans);
+    font-size: .93rem;
+    color: var(--text);
+    background: var(--surface2);
+    outline: none;
+    transition: all .18s;
+  }
+  .field input:focus { border-color: var(--green-l); background: var(--surface); box-shadow: 0 0 0 3px var(--green-glow); }
+
+  /* Tabs */
+  .auth-tabs { display: flex; gap: 4px; background: var(--bg); border-radius: 10px; padding: 3px; margin-bottom: 22px; }
+  .auth-tab { flex: 1; padding: 8px; background: none; border: none; font-family: var(--sans); font-size: .87rem; font-weight: 600; color: var(--text3); border-radius: 8px; cursor: pointer; transition: all .18s; }
+  .auth-tab.active { background: var(--surface); color: var(--green); box-shadow: 0 1px 6px rgba(46,125,50,0.1); }
+
+  .err-msg { color: var(--red); font-size: .82rem; margin-bottom: 12px; background: var(--red-bg); border-radius: 7px; padding: 8px 12px; display: none; }
+  .err-msg.show { display: block; }
+
+  /* Submit btn */
+  .submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--green-l), var(--green));
+    border: none;
+    border-radius: var(--r-sm);
+    font-family: var(--sans);
+    font-size: .93rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all .18s;
+    letter-spacing: .02em;
+    box-shadow: 0 2px 12px rgba(76,175,80,0.3);
+  }
+  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(76,175,80,0.4); }
+  .submit-btn:disabled { opacity: .55; pointer-events: none; }
+
+  /* ── NAVBAR ── */
+  nav {
+    background: var(--surface);
+    border-bottom: 1.5px solid var(--border);
+    padding: 13px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 9px; }
+  .nav-brand-icon { width: 34px; height: 34px; background: linear-gradient(135deg, var(--green-l), var(--green)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+  .nav-brand h2 { font-size: .97rem; font-weight: 700; color: var(--green); }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .coin-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--green-bg);
+    border: 1.5px solid var(--border2);
+    border-radius: 30px;
+    padding: 5px 13px;
+    font-size: .83rem;
+    font-weight: 600;
+    color: var(--green);
+  }
+  .nav-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--green-xl);
+    object-fit: cover;
+    background: var(--green-bg);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .85rem; color: var(--green);
+    overflow: hidden;
+  }
+  .nav-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+  /* ── MAIN ── */
+  main { flex: 1; padding: 28px 24px; max-width: 900px; margin: 0 auto; width: 100%; }
+
+  /* Page sections */
+  .page { display: none; animation: fadeUp .25s ease; }
+  .page.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ── DASHBOARD HOME ── */
+  .welcome-bar {
+    background: linear-gradient(135deg, var(--green-bg) 0%, #f1f8e9 100%);
+    border: 1.5px solid var(--border2);
+    border-radius: var(--r);
+    padding: 22px 24px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .welcome-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 2px solid var(--green-xl);
+    object-fit: cover;
+    background: var(--green-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 700; color: var(--green);
+    flex-shrink: 0; overflow: hidden;
+  }
+  .welcome-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .welcome-info h3 { font-size: 1.1rem; font-weight: 700; color: var(--green); }
+  .welcome-info p { font-size: .83rem; color: var(--text2); margin-top: 2px; }
+  .welcome-coins {
+    margin-left: auto;
+    text-align: right;
+  }
+  .welcome-coins .coins-num { font-family: var(--mono); font-size: 1.5rem; font-weight: 600; color: var(--green); line-height: 1; }
+  .welcome-coins .coins-label { font-size: .75rem; color: var(--text3); margin-top: 2px; }
+
+  /* Grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 13px; }
+
+  .action-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--r);
+    padding: 22px 18px;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .action-card:hover { border-color: var(--green-l); background: var(--green-bg); transform: translateY(-2px); box-shadow: var(--shadow-m); }
+  .action-card:active { transform: none; }
+  .card-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+  .card-icon.green { background: var(--green-bg); border: 1.5px solid var(--border2); }
+  .card-title { font-size: .9rem; font-weight: 700; color: var(--text); }
+  .card-desc { font-size: .78rem; color: var(--text3); line-height: 1.45; }
+  .card-arrow { margin-top: auto; font-size: .8rem; color: var(--green-l); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+
+  /* Section title */
+  .section-title { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text3); margin-bottom: 13px; }
+
+  /* ── SETTINGS PAGE ── */
+  .settings-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .settings-header {
+    background: var(--green-bg);
+    border-bottom: 1.5px solid var(--border);
+    padding: 14px 20px;
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--bg);
+  }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-row-label { font-size: .87rem; color: var(--text2); font-weight: 500; }
+  .settings-row-value { font-family: var(--mono); font-size: .8rem; color: var(--green); word-break: break-all; text-align: right; max-width: 200px; }
+
+  /* Toggle */
+  .toggle { position: relative; width: 40px; height: 22px; cursor: pointer; }
+  .toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+  .toggle-track { position: absolute; inset: 0; background: var(--border2); border-radius: 11px; transition: .2s; }
+  .toggle input:checked ~ .toggle-track { background: var(--green-l); }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: .2s; }
+  .toggle input:checked ~ .toggle-thumb { left: 21px; }
+
+  /* Danger btn */
+  .danger-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    background: var(--red-bg);
+    border: 1.5px solid #ef9a9a;
+    border-radius: var(--r-sm);
+    font-family: var(--sans);
+    font-size: .87rem;
+    font-weight: 600;
+    color: var(--red);
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .danger-btn:hover { background: #ffcdd2; border-color: var(--red); }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    background: var(--surface);
+    border-top: 1.5px solid var(--border);
+    display: flex;
+    padding: 10px 8px;
+    gap: 4px;
+    position: sticky; bottom: 0;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 4px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .18s;
+    border: none;
+    background: none;
+    font-family: var(--sans);
+    color: var(--text3);
+  }
+  .nav-item.active { background: var(--green-bg); color: var(--green); }
+  .nav-item:hover:not(.active) { background: var(--surface2); color: var(--text); }
+  .nav-item-icon { font-size: 1.2rem; }
+  .nav-item-label { font-size: .68rem; font-weight: 600; }
+
+  /* ── LOADING STATE ── */
+  #loading-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--bg);
+    flex-direction: column; gap: 14px;
+  }
+  #loading-screen.hidden { display: none; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border2);
+    border-top-color: var(--green-l);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading-screen p { font-size: .87rem; color: var(--text3); }
+
+  /* ── TOAST ── */
+  .toast-container { position: fixed; bottom: 80px; right: 20px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+  .toast {
+    background: var(--text);
+    color: #fff;
+    border-radius: var(--r-sm);
+    padding: 11px 16px;
+    font-size: .84rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-m);
+    animation: slideIn .25s ease;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    main { padding: 16px 14px; }
+    .auth-card { padding: 32px 22px 28px; }
+    .welcome-bar { flex-wrap: wrap; }
+    .welcome-coins { margin-left: 0; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════
-     AUTH SCREEN
-     ════════════════════════════════════════ -->
-<div id="auth-screen" class="screen active">
-  <div class="auth-box">
+<!-- LOADING -->
+<div id="loading-screen">
+  <div class="spinner"></div>
+  <p>Loading SkyeMoz Hub…</p>
+</div>
 
+<!-- AUTH SCREEN -->
+<div id="auth-screen" class="hidden">
+  <div class="auth-card">
     <div class="auth-logo">
-      <div class="logo-sq">■</div>
-      <h1>SKYEMOZ HUB</h1>
-      <p>AMONG US EDITION</p>
+      <div class="auth-logo-icon">🛸</div>
+      <div>
+        <h1>SkyeMoz Hub</h1>
+        <span>Among Us Dashboard</span>
+      </div>
     </div>
 
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">LOGIN</button>
-      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">REGISTER</button>
-    </div>
-
-    <div class="msg-error" id="auth-error"></div>
-    <div class="msg-load"  id="auth-load">CONNECTING...</div>
-
-    <!-- Google -->
-    <button class="btn-green btn-full" onclick="doGoogleSignIn()" style="margin-bottom:14px">
-      ▶ SIGN IN WITH GOOGLE
+    <button class="g-btn" id="google-btn">
+      <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.859-3.048.859-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.706A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 6.294C4.672 4.169 6.656 3.58 9 3.58z"/></svg>
+      Continue with Google
     </button>
 
-    <div class="divider">── OR ──</div>
+    <div class="divider">or sign in with email</div>
 
-    <!-- Email / Password -->
-    <div class="field">
-      <label>EMAIL</label>
-      <input type="email" id="inp-email" placeholder="player@skeld.net" autocomplete="email">
-    </div>
-    <div class="field">
-      <label>PASSWORD</label>
-      <input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-signin" onclick="setTab('signin')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="setTab('register')">Register</button>
     </div>
 
-    <div class="btn-row">
-      <button class="btn-green" id="btn-login"    onclick="doEmailLogin()">LOGIN</button>
-      <button class="btn-outline" id="btn-register" onclick="doEmailRegister()" style="display:none">REGISTER</button>
+    <div id="auth-form">
+      <div class="field" id="field-name" style="display:none">
+        <label>Display Name</label>
+        <input type="text" id="inp-name" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="inp-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div class="err-msg" id="auth-err"></div>
+      <button class="submit-btn" id="auth-submit-btn">Sign In</button>
     </div>
-
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     MAIN SCREEN
-     ════════════════════════════════════════ -->
-<div id="main-screen" class="screen">
-
-  <!-- Top bar -->
-  <div class="topbar">
-    <div class="topbar-brand">■ SKYEMOZ HUB <span>v2.3.0</span></div>
-    <div class="topbar-user">
-      <span class="username" id="bar-name">---</span>
-      <span class="sep">|</span>
-      <span class="coins">🟡 <span id="bar-coins">0</span> COINS</span>
+<!-- APP -->
+<div id="app">
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-brand-icon">🛸</div>
+      <h2>SkyeMoz Hub</h2>
     </div>
+    <div class="nav-right">
+      <div class="coin-badge">
+        🪙 <span id="nav-coins">0</span>
+      </div>
+      <div class="nav-avatar" id="nav-avatar-wrap">
+        <span id="nav-avatar-init">?</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <div class="welcome-bar">
+        <div class="welcome-avatar" id="home-avatar">
+          <span id="home-avatar-init">?</span>
+        </div>
+        <div class="welcome-info">
+          <h3 id="home-username">Loading…</h3>
+          <p id="home-email"></p>
+        </div>
+        <div class="welcome-coins">
+          <div class="coins-num" id="home-coins">0</div>
+          <div class="coins-label">🪙 Moz Coins</div>
+        </div>
+      </div>
+
+      <div class="section-title">Quick Actions</div>
+      <div class="grid">
+        <div class="action-card" onclick="openLink('play')">
+          <div class="card-icon green">🎮</div>
+          <div class="card-title">Play</div>
+          <div class="card-desc">Jump into a Skeld game now</div>
+          <div class="card-arrow">Open →</div>
+        </div>
+        <div class="action-card" onclick="openLink('shop')">
+          <div class="card-icon green">🛒</div>
+          <div class="card-title">Shop</div>
+          <div class="card-desc">Browse exclusive items & upgrades</div>
+          <div class="card-arrow">Open →</div>
+        </div>
+        <div class="action-card" onclick="openLink('quests')">
+          <div class="card-icon green">📋</div>
+          <div class="card-title">Quests</div>
+          <div class="card-desc">Complete tasks to earn coins</div>
+          <div class="card-arrow">Open →</div>
+        </div>
+        <div class="action-card" onclick="openLink('earn')">
+          <div class="card-icon green">🪙</div>
+          <div class="card-title">Earn</div>
+          <div class="card-desc">Watch, click, and earn Moz Coins</div>
+          <div class="card-arrow">Open →</div>
+        </div>
+        <div class="action-card" onclick="openLink('arcade')">
+          <div class="card-icon green">🕹️</div>
+          <div class="card-title">Skeld Arcade</div>
+          <div class="card-desc">Play fun mini-games on Skeld</div>
+          <div class="card-arrow">Open →</div>
+        </div>
+        <div class="action-card" onclick="openLink('redemption')">
+          <div class="card-icon green">🎁</div>
+          <div class="card-title">Redemption</div>
+          <div class="card-desc">Redeem codes for rewards</div>
+          <div class="card-arrow">Open →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="page-settings">
+      <div class="section-title">Account</div>
+      <div class="settings-card">
+        <div class="settings-header">👤 User Info</div>
+        <div class="settings-row">
+          <span class="settings-row-label">Display Name</span>
+          <span class="settings-row-value" id="set-name">—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Email</span>
+          <span class="settings-row-value" id="set-email">—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">User ID</span>
+          <span class="settings-row-value" id="set-uid" style="font-size:.7rem">—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Moz Coins</span>
+          <span class="settings-row-value" id="set-coins">0 🪙</span>
+        </div>
+      </div>
+
+      <div class="section-title">Preferences</div>
+      <div class="settings-card">
+        <div class="settings-header">⚙️ Options</div>
+        <div class="settings-row">
+          <span class="settings-row-label">Sound Effects</span>
+          <label class="toggle">
+            <input type="checkbox" id="pref-sound" checked onchange="savePref('sound', this.checked)">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Notifications</span>
+          <label class="toggle">
+            <input type="checkbox" id="pref-notif" onchange="savePref('notif', this.checked)">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+      </div>
+
+      <button class="danger-btn" id="logout-btn">
+        🚪 Sign Out
+      </button>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="showPage('home')">
+      <span class="nav-item-icon">🏠</span>
+      <span class="nav-item-label">Home</span>
+    </button>
+    <button class="nav-item" id="nav-play" onclick="openLink('play')">
+      <span class="nav-item-icon">🎮</span>
+      <span class="nav-item-label">Play</span>
+    </button>
+    <button class="nav-item" id="nav-shop" onclick="openLink('shop')">
+      <span class="nav-item-icon">🛒</span>
+      <span class="nav-item-label">Shop</span>
+    </button>
+    <button class="nav-item" id="nav-settings" onclick="showPage('settings')">
+      <span class="nav-item-icon">⚙️</span>
+      <span class="nav-item-label">Settings</span>
+    </button>
   </div>
+</div>
 
-  <!-- Layout -->
-  <div class="layout">
+<!-- Toast container -->
+<div class="toast-container" id="toast-wrap"></div>
 
-    <!-- Nav -->
-    <div class="nav-panel">
-      <div class="nav-section-label">MAIN MENU</div>
-      <button class="nav-btn active" data-page="home"     onclick="goPage('home',this)">▶ HOME</button>
-      <button class="nav-btn"        data-page="shop"     onclick="goPage('shop',this)">▶ SHOP</button>
-      <button class="nav-btn"        data-page="quests"   onclick="goPage('quests',this)">▶ QUESTS</button>
-      <button class="nav-btn"        data-page="earn"     onclick="goPage('earn',this)">▶ EARN</button>
-      <button class="nav-btn"        data-page="arcade"   onclick="goPage('arcade',this)">▶ ARCADE</button>
-      <button class="nav-btn"        data-page="settings" onclick="goPage('settings',this)">▶ SETTINGS</button>
-      <div class="nav-spacer"></div>
-      <button class="nav-btn nav-logout" onclick="doLogout()">✕ LOGOUT</button>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-
-      <!-- ── HOME ── -->
-      <div class="page active" id="page-home">
-        <div class="page-title">// HOME</div>
-
-        <div class="section-label">PLAYER STATUS</div>
-        <div class="info-block">
-          <div class="info-row">
-            <span class="info-label">STATUS</span>
-            <span class="info-val green"><span class="dot-online"></span>ONLINE</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">PLAYER</span>
-            <span class="info-val" id="home-name">---</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">MOZ COINS</span>
-            <span class="info-val green" id="home-coins">0</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">VERSION</span>
-            <span class="info-val">v2.3.0</span>
-          </div>
-        </div>
-
-        <div class="section-label">QUICK ACCESS</div>
-        <div class="quick-grid">
-          <button class="quick-btn" onclick="goPage('shop',   document.querySelector('[data-page=shop]'))">SHOP</button>
-          <button class="quick-btn" onclick="goPage('quests', document.querySelector('[data-page=quests]'))">QUESTS</button>
-          <button class="quick-btn" onclick="goPage('earn',   document.querySelector('[data-page=earn]'))">EARN</button>
-          <button class="quick-btn" onclick="goPage('arcade', document.querySelector('[data-page=arcade]'))">ARCADE</button>
-        </div>
-
-        <div class="section-label">SYSTEM LOG</div>
-        <div class="log-box" id="log-box"></div>
-      </div>
-
-      <!-- ── SHOP ── -->
-      <div class="page" id="page-shop">
-        <div class="page-title">// SHOP</div>
-        <div class="placeholder-block">
-          <div class="ph-icon">🛒</div>
-          <div class="ph-text">SKYEMOZ SHOP</div>
-          <div class="ph-sub">Browse exclusive items and upgrades</div>
-          <a id="shop-link" href="#" target="_blank" rel="noopener" class="btn-green">OPEN SHOP ▶</a>
-        </div>
-      </div>
-
-      <!-- ── QUESTS ── -->
-      <div class="page" id="page-quests">
-        <div class="page-title">// QUESTS</div>
-        <div class="placeholder-block">
-          <div class="ph-icon">📋</div>
-          <div class="ph-text">QUEST BOARD</div>
-          <div class="ph-sub">Complete tasks to earn Moz Coins</div>
-          <a id="quests-link" href="#" target="_blank" rel="noopener" class="btn-green">OPEN QUESTS ▶</a>
-        </div>
-      </div>
-
-      <!-- ── EARN ── -->
-      <div class="page" id="page-earn">
-        <div class="page-title">// EARN</div>
-        <div class="placeholder-block">
-          <div class="ph-icon">💰</div>
-          <div class="ph-text">EARN MOZ COINS</div>
-          <div class="ph-sub">Complete activities to earn coins</div>
-          <a id="earn-link" href="#" target="_blank" rel="noopener" class="btn-green">START EARNING ▶</a>
-        </div>
-        <div class="section-label">YOUR BALANCE</div>
-        <div class="info-block">
-          <div class="info-row" style="padding:18px 14px">
-            <span class="info-label">MOZ COINS</span>
-            <span class="info-val green big" id="earn-coins">0</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── ARCADE ── -->
-      <div class="page" id="page-arcade">
-        <div class="page-title">// SKELD ARCADE</div>
-        <div class="placeholder-block">
-          <div class="ph-icon">🕹️</div>
-          <div class="ph-text">SKELD ARCADE</div>
-          <div class="ph-sub">Play games and compete for rewards</div>
-          <a id="arcade-link" href="#" target="_blank" rel="noopener" class="btn-green">LAUNCH ARCADE ▶</a>
-        </div>
-      </div>
-
-      <!-- ── SETTINGS ── -->
-      <div class="page" id="page-settings">
-        <div class="page-title">// SETTINGS</div>
-
-        <div class="section-label">ACCOUNT</div>
-        <div class="info-block">
-          <div class="info-row">
-            <span class="info-label">USERNAME</span>
-            <span class="info-val" id="set-name">---</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">EMAIL</span>
-            <span class="info-val" id="set-email">---</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">UID</span>
-            <span class="info-val uid-txt" id="set-uid">---</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">COINS</span>
-            <span class="info-val green" id="set-coins">0</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">PROVIDER</span>
-            <span class="info-val" id="set-provider">---</span>
-          </div>
-        </div>
-
-        <div class="section-label">DISPLAY</div>
-        <div class="info-block">
-          <div class="info-row">
-            <span class="info-label">TEXT SIZE</span>
-            <div class="toggle-row">
-              <button class="toggle-btn" onclick="setSize('small',this)">S</button>
-              <button class="toggle-btn active" onclick="setSize('normal',this)">M</button>
-              <button class="toggle-btn" onclick="setSize('large',this)">L</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-label">DANGER ZONE</div>
-        <div class="info-block">
-          <div class="info-row">
-            <span class="info-label">SESSION</span>
-            <button class="btn-red" onclick="doLogout()">✕ LOGOUT</button>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /content -->
-  </div><!-- /layout -->
-</div><!-- /main-screen -->
-
-<!-- ════════════════════════════════════════
-     FIREBASE (ES Module)
-     ════════════════════════════════════════ -->
+<!-- Firebase -->
 <script type="module">
-import { initializeApp }
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getAuth, GoogleAuthProvider,
-  signInWithPopup, signInWithEmailAndPassword,
-  createUserWithEmailAndPassword, signOut,
-  onAuthStateChanged
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc, serverTimestamp
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ── Firebase config ── replace with your own project config ──
-const cfg = {
-  apiKey:            "AIzaSyCbtNoRho0NAydgqEz0iKXotqBXJpmubZk",
-  authDomain:        "modlaunch.firebaseapp.com",
-  projectId:         "modlaunch",
-  storageBucket:     "modlaunch.firebasestorage.app",
+// ── Firebase Config ──
+const firebaseConfig = {
+  apiKey: "AIzaSyCbtNoRho0NAydgqEz0iKXotqBXJpmubZk",
+  authDomain: "modlaunch.firebaseapp.com",
+  projectId: "modlaunch",
+  storageBucket: "modlaunch.firebasestorage.app",
   messagingSenderId: "16749876586",
-  appId:             "1:16749876586:web:6e6afba261424858f40113"
+  appId: "1:16749876586:web:6e6afba261424858f40113"
+};
+const fapp = initializeApp(firebaseConfig);
+const auth = getAuth(fapp);
+const db   = getFirestore(fapp);
+
+// ── External links (edit these) ──
+window._links = {
+  play:       '#',
+  shop:       '#',
+  quests:     '#',
+  earn:       '#',
+  arcade:     '#',
+  redemption: '#'
 };
 
-const fbApp  = initializeApp(cfg);
-const auth   = getAuth(fbApp);
-const db     = getFirestore(fbApp);
-const gProv  = new GoogleAuthProvider();
+// ── Helpers ──
+function show(id)  { document.getElementById(id).classList.remove('hidden'); }
+function hide(id)  { document.getElementById(id).classList.add('hidden'); }
+function showAuth(){ show('auth-screen'); hide('loading-screen'); document.getElementById('app').classList.remove('visible'); }
+function showApp() { hide('auth-screen'); hide('loading-screen'); document.getElementById('app').classList.add('visible'); }
 
-// ── Ensure user doc exists in Firestore ──
-async function ensureUser(user) {
-  try {
-    const ref  = doc(db, "users", user.uid);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) {
-      await setDoc(ref, {
-        uid:       user.uid,
-        username:  user.displayName || user.email?.split("@")[0] || "Player",
-        email:     user.email || "",
-        provider:  user.providerData[0]?.providerId || "unknown",
-        coins:     0,
-        createdAt: serverTimestamp(),
-        lastLogin: serverTimestamp()
-      });
-    } else {
-      await setDoc(ref, { lastLogin: serverTimestamp() }, { merge: true });
+function toast(msg, type='success'){
+  const w = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = (type==='success'?'✓ ':type==='error'?'✕ ':'') + msg;
+  w.appendChild(t);
+  setTimeout(()=>t.remove(), 3500);
+}
+
+function initials(name){
+  if(!name) return '?';
+  return name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+}
+
+// ── Firestore: ensure user doc ──
+async function ensureUser(user){
+  const ref = doc(db, 'users', user.uid);
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref, {
+      username: user.displayName || user.email.split('@')[0],
+      email: user.email,
+      photoURL: user.photoURL || '',
+      coins: 0,
+      createdAt: serverTimestamp()
+    });
+    return { username: user.displayName || user.email.split('@')[0], coins: 0, email: user.email, photoURL: '' };
+  } else {
+    const d = snap.data();
+    // ensure coins field
+    if(typeof d.coins !== 'number'){
+      await setDoc(ref, { coins: 0 }, { merge: true });
+      return { ...d, coins: 0 };
     }
-    const fresh = await getDoc(ref);
-    return { ...fresh.data(), uid: user.uid, email: user.email,
-             provider: user.providerData[0]?.providerId || "unknown" };
-  } catch (e) {
-    console.warn("[Firestore]", e.message);
-    return {
-      uid: user.uid,
-      username: user.displayName || user.email?.split("@")[0] || "Player",
-      email: user.email || "",
-      provider: "unknown",
-      coins: 0
-    };
+    return d;
   }
+}
+
+// ── Populate UI ──
+function populateUI(user, data){
+  const name  = data.username || user.displayName || 'Player';
+  const email = data.email    || user.email || '';
+  const coins = typeof data.coins === 'number' ? data.coins : 0;
+  const photo = data.photoURL || user.photoURL || '';
+
+  // Navbar
+  document.getElementById('nav-coins').textContent = coins.toLocaleString();
+
+  const navWrap = document.getElementById('nav-avatar-wrap');
+  if(photo){
+    navWrap.innerHTML = `<img src="${photo}" alt="avatar">`;
+  } else {
+    navWrap.innerHTML = `<span id="nav-avatar-init">${initials(name)}</span>`;
+  }
+
+  // Home
+  const homeAvatar = document.getElementById('home-avatar');
+  if(photo){
+    homeAvatar.innerHTML = `<img src="${photo}" alt="avatar">`;
+  } else {
+    homeAvatar.innerHTML = `<span id="home-avatar-init">${initials(name)}</span>`;
+  }
+  document.getElementById('home-username').textContent = name;
+  document.getElementById('home-email').textContent    = email;
+  document.getElementById('home-coins').textContent    = coins.toLocaleString();
+
+  // Settings
+  document.getElementById('set-name').textContent  = name;
+  document.getElementById('set-email').textContent  = email;
+  document.getElementById('set-uid').textContent    = user.uid;
+  document.getElementById('set-coins').textContent  = coins.toLocaleString() + ' 🪙';
+
+  // Load prefs
+  const prefs = JSON.parse(localStorage.getItem('skm_prefs') || '{}');
+  document.getElementById('pref-sound').checked = prefs.sound !== false;
+  document.getElementById('pref-notif').checked = prefs.notif === true;
 }
 
 // ── Auth state ──
 onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const data = await ensureUser(user);
-    window.dispatchEvent(new CustomEvent("smz:in", { detail: data }));
+  if(user){
+    try{
+      const data = await ensureUser(user);
+      populateUI(user, data);
+      showApp();
+      toast('Welcome back, ' + (data.username || 'Player') + '!');
+    } catch(e){
+      console.error(e);
+      showApp();
+    }
   } else {
-    window.dispatchEvent(new CustomEvent("smz:out"));
+    showAuth();
   }
 });
 
-// ── Expose actions to app JS ──
-window._smzAuth = {
-  googleSignIn:  () => signInWithPopup(auth, gProv),
-  emailLogin:    (e,p) => signInWithEmailAndPassword(auth, e, p),
-  emailRegister: (e,p) => createUserWithEmailAndPassword(auth, e, p),
-  logout:        () => signOut(auth)
-};
-</script>
-
-<!-- ════════════════════════════════════════
-     APP LOGIC
-     ════════════════════════════════════════ -->
-<script>
-/* ── Manifest / links ── */
-const LINKS = {
-  shop:   "#",
-  quests: "#",
-  earn:   "#",
-  arcade: "#"
-};
-
-(async () => {
+// ── Google Sign-In ──
+document.getElementById('google-btn').addEventListener('click', async () => {
   try {
-    const r = await fetch("manifest.json");
-    if (r.ok) {
-      const m = await r.json();
-      const dl = m.directLinks || {};
-      if (dl.shop)        LINKS.shop   = dl.shop;
-      if (dl.quests)      LINKS.quests = dl.quests;
-      if (dl.earn)        LINKS.earn   = dl.earn;
-      if (dl.skeldArcade) LINKS.arcade = dl.skeldArcade;
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+    // onAuthStateChanged handles the rest
+  } catch(e){
+    showErr(e.message);
+  }
+});
+
+// ── Email/Pass form ──
+let authMode = 'signin';
+
+window.setTab = (mode) => {
+  authMode = mode;
+  document.getElementById('tab-signin').classList.toggle('active', mode === 'signin');
+  document.getElementById('tab-register').classList.toggle('active', mode === 'register');
+  document.getElementById('field-name').style.display = mode === 'register' ? 'block' : 'none';
+  document.getElementById('auth-submit-btn').textContent = mode === 'register' ? 'Create Account' : 'Sign In';
+  clearErr();
+};
+
+document.getElementById('auth-submit-btn').addEventListener('click', async () => {
+  const email = document.getElementById('inp-email').value.trim();
+  const pass  = document.getElementById('inp-pass').value;
+  const name  = document.getElementById('inp-name').value.trim();
+  if(!email || !pass){ showErr('Please fill in all fields.'); return; }
+  const btn = document.getElementById('auth-submit-btn');
+  btn.disabled = true;
+  try {
+    if(authMode === 'register'){
+      if(pass.length < 6){ showErr('Password must be at least 6 characters.'); btn.disabled=false; return; }
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      if(name) await updateProfile(cred.user, { displayName: name });
+    } else {
+      await signInWithEmailAndPassword(auth, email, pass);
     }
-  } catch (_) {}
-  applyLinks();
-})();
+  } catch(e){
+    showErr(friendlyErr(e.code));
+    btn.disabled = false;
+  }
+});
 
-function applyLinks() {
-  const set = (id, url) => { const el = document.getElementById(id); if (el && url !== "#") el.href = url; };
-  set("shop-link",   LINKS.shop);
-  set("quests-link", LINKS.quests);
-  set("earn-link",   LINKS.earn);
-  set("arcade-link", LINKS.arcade);
-}
-
-/* ── Auth tab switch ── */
-function switchTab(mode) {
-  const isReg = mode === "register";
-  document.getElementById("tab-login").classList.toggle("active", !isReg);
-  document.getElementById("tab-register").classList.toggle("active", isReg);
-  document.getElementById("btn-login").style.display    = isReg ? "none"  : "";
-  document.getElementById("btn-register").style.display = isReg ? ""      : "none";
-  hideAuthMsg();
-}
-
-/* ── Auth messages ── */
-function authErr(msg) {
-  const el = document.getElementById("auth-error");
-  el.textContent = "✕ " + msg;
-  el.style.display = "block";
-  document.getElementById("auth-load").style.display = "none";
-}
-function authLoading(on) {
-  document.getElementById("auth-load").style.display  = on ? "block" : "none";
-  document.getElementById("auth-error").style.display = "none";
-}
-function hideAuthMsg() {
-  document.getElementById("auth-error").style.display = "none";
-  document.getElementById("auth-load").style.display  = "none";
-}
-
-/* ── Auth error codes ── */
-function fmtErr(code) {
-  return ({
-    "auth/user-not-found":        "User not found. Please register.",
-    "auth/wrong-password":        "Incorrect password.",
-    "auth/invalid-credential":    "Wrong email or password.",
-    "auth/invalid-email":         "Invalid email address.",
-    "auth/email-already-in-use":  "Email already registered.",
-    "auth/weak-password":         "Password must be 6+ characters.",
-    "auth/too-many-requests":     "Too many attempts. Try later.",
-    "auth/popup-closed-by-user":  "Sign-in popup was closed.",
-    "auth/network-request-failed":"Network error. Check connection."
-  })[code] || ("Error: " + (code || "unknown"));
-}
-
-/* ── Auth actions ── */
-async function doGoogleSignIn() {
-  if (!window._smzAuth) return authErr("Firebase loading, please wait.");
-  authLoading(true);
-  try { await window._smzAuth.googleSignIn(); }
-  catch (e) { authLoading(false); authErr(fmtErr(e.code)); }
-}
-
-async function doEmailLogin() {
-  if (!window._smzAuth) return authErr("Firebase loading, please wait.");
-  const email = document.getElementById("inp-email").value.trim();
-  const pass  = document.getElementById("inp-pass").value;
-  if (!email || !pass) return authErr("Please fill in all fields.");
-  authLoading(true);
-  try { await window._smzAuth.emailLogin(email, pass); }
-  catch (e) { authLoading(false); authErr(fmtErr(e.code)); }
-}
-
-async function doEmailRegister() {
-  if (!window._smzAuth) return authErr("Firebase loading, please wait.");
-  const email = document.getElementById("inp-email").value.trim();
-  const pass  = document.getElementById("inp-pass").value;
-  if (!email || !pass) return authErr("Please fill in all fields.");
-  if (pass.length < 6) return authErr("Password must be 6+ characters.");
-  authLoading(true);
-  try { await window._smzAuth.emailRegister(email, pass); }
-  catch (e) { authLoading(false); authErr(fmtErr(e.code)); }
-}
-
-async function doLogout() {
-  if (window._smzAuth) await window._smzAuth.logout().catch(() => {});
-}
-
-/* ── Enter key on auth inputs ── */
-["inp-email","inp-pass"].forEach(id =>
-  document.getElementById(id).addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      const isReg = document.getElementById("btn-register").style.display !== "none";
-      isReg ? doEmailRegister() : doEmailLogin();
-    }
-  })
-);
-
-/* ── Page navigation ── */
-function goPage(name, btn) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const pg = document.getElementById("page-" + name);
-  if (pg) pg.classList.add("active");
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-  if (btn) btn.classList.add("active");
-}
-
-/* ── Populate UI ── */
-function populateUI(d) {
-  const name   = d.username || "Player";
-  const coins  = typeof d.coins === "number" ? d.coins : 0;
-  const email  = d.email    || "---";
-  const uid    = d.uid      || "---";
-  const prov   = fmtProvider(d.provider);
-
-  setText("bar-name",    name);
-  setText("bar-coins",   fmt(coins));
-  setText("home-name",   name);
-  setText("home-coins",  fmt(coins));
-  setText("earn-coins",  fmt(coins));
-  setText("set-name",    name);
-  setText("set-email",   email);
-  setText("set-uid",     uid);
-  setText("set-coins",   fmt(coins));
-  setText("set-provider", prov);
-}
-
-function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
-function fmt(n)         { return Number(n).toLocaleString(); }
-function fmtProvider(p) {
-  if (!p) return "---";
-  if (p.includes("google"))   return "GOOGLE";
-  if (p.includes("password")) return "EMAIL / PASSWORD";
-  return p.toUpperCase();
-}
-
-/* ── System log ── */
-function addLog(type, msg) {
-  const box = document.getElementById("log-box");
-  if (!box) return;
-  const now  = new Date();
-  const time = `[${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}]`;
-  const cls  = { ok:"log-ok", sys:"log-sys", err:"log-err", warn:"log-warn" }[type] || "log-sys";
-  const line = document.createElement("div");
-  line.className = "log-line";
-  line.innerHTML = `<span class="log-time">${time}</span><span class="${cls}"> ${esc(msg)}</span>`;
-  box.appendChild(line);
-  box.scrollTop = box.scrollHeight;
-}
-
-function pad(n) { return String(n).padStart(2,"0"); }
-function esc(s) { return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-
-/* ── Text size ── */
-function setSize(size, btn) {
-  document.documentElement.dataset.textsize = size;
-  localStorage.setItem("smz_ts", size);
-  document.querySelectorAll(".toggle-btn").forEach(b => b.classList.remove("active"));
-  if (btn) btn.classList.add("active");
-}
-
-function restoreSize() {
-  const s = localStorage.getItem("smz_ts") || "normal";
-  document.documentElement.dataset.textsize = s;
-  const map = { small:0, normal:1, large:2 };
-  const btns = document.querySelectorAll(".toggle-btn");
-  btns.forEach(b => b.classList.remove("active"));
-  if (btns[map[s]]) btns[map[s]].classList.add("active");
-}
-
-/* ── Show/hide screens ── */
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+// Enter key on inputs
+['inp-email','inp-pass','inp-name'].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.classList.add("active");
+  if(el) el.addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('auth-submit-btn').click(); });
+});
+
+function showErr(msg){ const el=document.getElementById('auth-err'); el.textContent=msg; el.classList.add('show'); }
+function clearErr(){ const el=document.getElementById('auth-err'); el.textContent=''; el.classList.remove('show'); }
+function friendlyErr(code){
+  const m = {
+    'auth/user-not-found':  'No account found with that email.',
+    'auth/wrong-password':  'Incorrect password.',
+    'auth/email-already-in-use': 'An account already exists with that email.',
+    'auth/invalid-email':   'Please enter a valid email address.',
+    'auth/too-many-requests': 'Too many attempts. Please wait and try again.',
+    'auth/network-request-failed': 'Network error. Check your connection.'
+  };
+  return m[code] || 'Something went wrong. Please try again.';
 }
 
-/* ── Firebase event listeners ── */
-window.addEventListener("smz:in", e => {
-  const d = e.detail;
-  showScreen("main-screen");
-  populateUI(d);
-  addLog("sys", "Hub initialized");
-  addLog("ok",  "Firebase connected");
-  addLog("ok",  `Logged in as ${d.username || "Player"}`);
-  addLog("sys", "All systems operational");
+// ── Logout ──
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  await signOut(auth);
+  toast('Signed out. See you next time!', 'success');
 });
 
-window.addEventListener("smz:out", () => {
-  showScreen("auth-screen");
-  document.getElementById("inp-email").value = "";
-  document.getElementById("inp-pass").value  = "";
-  hideAuthMsg();
-  // Reset to home page for next login
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const hp = document.getElementById("page-home");
-  if (hp) hp.classList.add("active");
-  document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-  const hb = document.querySelector('[data-page="home"]');
-  if (hb) hb.classList.add("active");
-  const lb = document.getElementById("log-box");
-  if (lb) lb.innerHTML = "";
-});
+// ── Navigation ──
+window.showPage = (page) => {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('page-' + page);
+  const nb = document.getElementById('nav-' + page);
+  if(pg) pg.classList.add('active');
+  if(nb) nb.classList.add('active');
+};
 
-/* ── Boot ── */
-restoreSize();
+window.openLink = (key) => {
+  const url = window._links[key] || '#';
+  if(url && url !== '#') window.open(url, '_blank', 'noopener');
+  else toast('Coming soon! 🚀', 'success');
+};
 
-/* ── Expose globals for inline onclick ── */
-window.switchTab       = switchTab;
-window.doGoogleSignIn  = doGoogleSignIn;
-window.doEmailLogin    = doEmailLogin;
-window.doEmailRegister = doEmailRegister;
-window.doLogout        = doLogout;
-window.goPage          = goPage;
-window.setSize         = setSize;
+window.savePref = (key, val) => {
+  const prefs = JSON.parse(localStorage.getItem('skm_prefs') || '{}');
+  prefs[key] = val;
+  localStorage.setItem('skm_prefs', JSON.stringify(prefs));
+};
 </script>
-
 </body>
 </html>
