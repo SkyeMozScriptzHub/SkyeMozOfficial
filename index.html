@@ -1008,6 +1008,69 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
 .page-placeholder h2{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--t-primary);margin-bottom:7px}
 .page-placeholder p{font-size:.83rem;color:var(--t-muted);line-height:1.6;max-width:280px;margin:0 auto}
 
+
+#particle-canvas{
+  position:fixed;inset:0;z-index:0;
+  pointer-events:none;
+  opacity:.58;
+  mix-blend-mode:screen;
+}
+.header,.panel,.core-panel,.modal,.auth-card,.profile-dd,.toast,.footer,.nav-tab,.tool-card,.core-card,.social-btn,.view-all-btn,.btn,.s-tab{
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+}
+.header{
+  box-shadow:0 8px 36px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.nav-tab{
+  position:relative;
+  overflow:hidden;
+}
+.nav-tab::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(99,130,255,0.14),rgba(167,139,250,0.08),transparent 70%);
+  opacity:0;
+  transition:opacity .2s ease;
+}
+.nav-tab:hover::before,.nav-tab.active::before{opacity:1}
+.core-panel{
+  box-shadow:0 18px 80px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.panel,.core-card,.tool-card,.social-btn,.view-all-btn,.btn,.s-tab,.modal,.auth-card,.profile-dd,.toast{
+  box-shadow:0 18px 60px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.03);
+}
+.core-card,.tool-card,.social-btn,.nav-tab,.view-all-btn,.btn,.s-tab,.icon-btn,.pd-item,.pd-signout{
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease, color .2s ease, opacity .2s ease;
+}
+.core-card:hover,.tool-card:hover,.social-btn:hover,.nav-tab:hover,.view-all-btn:hover,.btn:hover,.s-tab:hover,.icon-btn:hover,.pd-item:hover{
+  transform:translateY(-2px);
+}
+@media(max-width:920px){
+  .hdr-nav{
+    justify-content:flex-start;
+    gap:4px;
+    padding:0 0 0 4px;
+  }
+}
+@media(max-width:600px){
+  .header{
+    height:58px;
+    padding:0 10px;
+    gap:8px;
+  }
+  .hdr-brand{gap:8px}
+  .nav-tab{
+    padding:7px 11px;
+    border-radius:999px;
+  }
+  .hdr-right{gap:6px}
+  .profile-dd{
+    width:min(290px, calc(100vw - 24px));
+  }
+}
+
 /* ═══════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════ */
@@ -1037,6 +1100,7 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
 
 <!-- BG -->
 <canvas id="bg-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
 <div class="bg-gradient"></div>
 
 <!-- LOADING -->
@@ -1109,19 +1173,19 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
     </div>
 
     <nav class="hdr-nav">
-      <button class="nav-tab active" data-page="home" onclick="showPage('home',this)">
+      <button class="nav-tab active" data-page="home" onclick="goPage('home',this)">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Home
       </button>
-      <button class="nav-tab" data-page="shop" onclick="showPage('shop',this)">
+      <button class="nav-tab" data-page="shop" onclick="goPage('shop',this)">
         <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         Shop
       </button>
-      <button class="nav-tab" data-page="utilities" onclick="showPage('utilities',this)">
+      <button class="nav-tab" data-page="utilities" onclick="goPage('utilities',this)">
         <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
         Utilities
       </button>
-      <button class="nav-tab" data-page="updates" onclick="showPage('updates',this)">
+      <button class="nav-tab" data-page="updates" onclick="goPage('updates',this)">
         <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
         Updates
       </button>
@@ -1207,13 +1271,13 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
       <div class="panel">
         <div class="p-hdr"><span class="p-title">Tools &amp; Systems</span></div>
         <div class="tools-grid">
-          <div class="tool-card" onclick="showPage('utilities',document.querySelector('[data-page=utilities]'))">
+          <div class="tool-card" onclick="goPage('utilities',document.querySelector('[data-page=utilities]'))">
             <div class="tool-ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/></svg></div>
             <div class="tool-name">MozGPT-5</div>
             <div class="tool-desc">AI assistant for Skeld.</div>
             <div class="tool-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
           </div>
-          <div class="tool-card" onclick="showPage('utilities',document.querySelector('[data-page=utilities]'))">
+          <div class="tool-card" onclick="goPage('utilities',document.querySelector('[data-page=utilities]'))">
             <div class="tool-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
             <div class="tool-name">Skeld Host</div>
             <div class="tool-desc">Host & control servers.</div>
@@ -1235,7 +1299,7 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
           <div class="core-planet"></div>
           <div class="sec-label" style="position:relative;z-index:1;margin-bottom:14px">Core Systems</div>
           <div class="core-grid">
-            <div class="core-card" onmousemove="coreGlow(event,this)" onmouseleave="coreUnglow(this)" onclick="showPage('shop',document.querySelector('[data-page=shop]'))">
+            <div class="core-card" onmousemove="coreGlow(event,this)" onmouseleave="coreUnglow(this)" onclick="goPage('shop',document.querySelector('[data-page=shop]'))">
               <div class="core-card-glow"></div>
               <div class="core-card-ico"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
               <div class="core-card-name">Shop</div>
@@ -1256,7 +1320,7 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
               <div class="core-card-desc">Redeem codes for rewards.</div>
               <div class="core-card-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
             </div>
-            <div class="core-card" onmousemove="coreGlow(event,this)" onmouseleave="coreUnglow(this)" onclick="showPage('utilities',document.querySelector('[data-page=utilities]'))">
+            <div class="core-card" onmousemove="coreGlow(event,this)" onmouseleave="coreUnglow(this)" onclick="goPage('utilities',document.querySelector('[data-page=utilities]'))">
               <div class="core-card-glow"></div>
               <div class="core-card-ico"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 10v4M16 12h4"/></svg></div>
               <div class="core-card-name">Skeld Arcade</div>
@@ -1272,14 +1336,14 @@ button,.nav-tab,.card,.panel-header,.social-btn,.tool-card,.ann-row,
           <div class="panel announce-panel">
             <div class="p-hdr">
               <span class="p-title">Announcements</span>
-              <span class="p-action" onclick="showPage('updates',document.querySelector('[data-page=updates]'))">
+              <span class="p-action" onclick="goPage('updates',document.querySelector('[data-page=updates]'))">
                 View all <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
               </span>
             </div>
             <div class="ann-body" id="ann-body-home">
               <div style="padding:20px;text-align:center;color:var(--t-faint);font-size:.8rem">Loading…</div>
             </div>
-            <button class="view-all-btn" onclick="showPage('updates',document.querySelector('[data-page=updates]'))">
+            <button class="view-all-btn" onclick="goPage('updates',document.querySelector('[data-page=updates]'))">
               <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
               View All Updates
             </button>
@@ -1579,13 +1643,20 @@ function setAv(el,photo,name){
 async function ensureUser(user){
   const ref=doc(db,'users',user.uid);
   const snap=await getDoc(ref);
+  const username=(user.displayName||user.email.split('@')[0]||'Commander').trim();
   if(!snap.exists()){
-    const d={username:user.displayName||user.email.split('@')[0],email:user.email,photoURL:user.photoURL||'',bio:'',coins:0,createdAt:serverTimestamp()};
-    await setDoc(ref,d); return d;
+    const d={username,email:user.email,photoURL:user.photoURL||'',bio:'',coins:0,createdAt:serverTimestamp()};
+    await setDoc(ref,d);
+    await setDoc(doc(db,'usernames',username),{uid:user.uid,username,email:user.email,photoURL:user.photoURL||'',createdAt:serverTimestamp()},{merge:true});
+    return d;
   }
   const d=snap.data();
-  if(typeof d.coins!=='number'){await setDoc(ref,{coins:0},{merge:true});return{...d,coins:0};}
-  return d;
+  if(typeof d.coins!=='number'){await setDoc(ref,{coins:0},{merge:true});}
+  // Keep the username index in sync without changing existing app behavior.
+  if(username){
+    await setDoc(doc(db,'usernames',username),{uid:user.uid,username,email:user.email,photoURL:user.photoURL||'',updatedAt:serverTimestamp()},{merge:true});
+  }
+  return {...d,coins:typeof d.coins==='number'?d.coins:0};
 }
 
 /* ── coin loading from coin/{username}.coin ── */
@@ -1765,6 +1836,7 @@ window.saveProfile=async function(){
   try{
     await updateProfile(user,{displayName:name,photoURL:photo||null});
     await setDoc(doc(db,'users',user.uid),{username:name,bio,photoURL:photo},{merge:true});
+    await setDoc(doc(db,'usernames',name),{uid:user.uid,username:name,email:user.email,photoURL:photo||'',updatedAt:serverTimestamp()},{merge:true});
     populateUI(user,{...window._currentData,username:name,bio,photoURL:photo});
     closeModal('edit-profile-modal');
     toast('Profile saved','ok');
@@ -1780,6 +1852,7 @@ window.saveSettingsProfile=async function(){
   try{
     await updateProfile(user,{displayName:name});
     await setDoc(doc(db,'users',user.uid),{username:name,bio},{merge:true});
+    await setDoc(doc(db,'usernames',name),{uid:user.uid,username:name,email:user.email,updatedAt:serverTimestamp()},{merge:true});
     populateUI(user,{...window._currentData,username:name,bio});
     toast('Profile saved','ok');
   }catch(e){toast('Save failed: '+e.message,'err');}
@@ -1883,6 +1956,9 @@ function loadPrefs(){
     const el=document.getElementById('pref-'+id);
     if(el&&id in p)el.checked=p[id];
   });
+  if(p.accent&&p.accent.color&&p.accent.dim&&p.accent.border){
+    setAccent(p.accent.color,p.accent.dim,p.accent.border,false);
+  }
   const compact=p.compact;
   if(compact)document.body.classList.add('compact');
   const sidebarShow=p.sidebar!==false;
@@ -1913,7 +1989,7 @@ window.previewAvatar=function(url,fallbackName){
 
 <script>
 /* ── PURE JS (non-module) ── */
-const toast=(...a)=>window._toast&&window._toast(...a);
+const toast=(msg,type='ok')=>window._toast&&window._toast(msg,type);
 
 /* ── LOADING / AUTH / APP visibility ── */
 function hideLoading(){document.getElementById('loading').classList.add('hide')}
@@ -1968,6 +2044,16 @@ window.showPage=function(name,btn){
   if(pg)pg.classList.add('active');
   if(btn)btn.classList.add('active');
 };
+window.goPage=function(name,btn){
+  showPage(name,btn);
+  location.hash = '#'+name;
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+window.addEventListener('hashchange',()=>{
+  const name=(location.hash||'#home').replace('#','');
+  const btn=document.querySelector(`[data-page="${name}"]`);
+  if(document.getElementById('page-'+name)) showPage(name, btn);
+});
 
 /* ── ABOUT TOGGLE ── */
 let aboutOpen=true;
@@ -2057,7 +2143,7 @@ window.submitRedeem=function(){
 };
 
 /* ── ACCENT COLOR ── */
-window.setAccent=function(color,dim,border){
+window.setAccent=function(color,dim,border,silent=false){
   document.documentElement.style.setProperty('--accent',color);
   document.documentElement.style.setProperty('--accent-2',color);
   document.documentElement.style.setProperty('--accent-dim',dim);
@@ -2067,7 +2153,7 @@ window.setAccent=function(color,dim,border){
     s.style.border=s.dataset.color===color?'2px solid rgba(255,255,255,0.5)':'2px solid transparent';
   });
   window.savePref&&savePref('accent',{color,dim,border});
-  toast('Accent color updated','ok');
+  if(!silent) toast('Accent color updated','ok');
 };
 
 /* ── BG STARFIELD ── */
@@ -2099,6 +2185,54 @@ function drawBg(t){
 window.addEventListener('resize',()=>{resizeBg();initStars();});
 resizeBg();initStars();
 
+/* ── PARTICLE FIELD ── */
+const pC=document.getElementById('particle-canvas');
+const pCtx=pC&&pC.getContext('2d');
+let pW=0,pH=0,parts=[];
+function resizeParticles(){
+  if(!pC)return;
+  pW=pC.width=window.innerWidth;
+  pH=pC.height=window.innerHeight;
+}
+function initParticles(){
+  parts=[];
+  const count=Math.min(120, Math.max(60, Math.floor((window.innerWidth*window.innerHeight)/18000)));
+  for(let i=0;i<count;i++){
+    parts.push({
+      x:Math.random()*pW,
+      y:Math.random()*pH,
+      vx:(Math.random()-.5)*0.18,
+      vy:(Math.random()-.5)*0.12,
+      r:Math.random()*1.8+0.4,
+      hue:[192,216,255,280][Math.floor(Math.random()*4)],
+      a:Math.random()*0.42+0.08,
+      tw:Math.random()*Math.PI*2
+    });
+  }
+}
+function drawParticles(t){
+  if(!pCtx||!pC)return;
+  pCtx.clearRect(0,0,pW,pH);
+  for(const p of parts){
+    p.x+=p.vx; p.y+=p.vy;
+    p.tw+=0.01;
+    if(p.x<-20) p.x=pW+20;
+    if(p.x>pW+20) p.x=-20;
+    if(p.y<-20) p.y=pH+20;
+    if(p.y>pH+20) p.y=-20;
+    const a=p.a*(0.55+0.45*Math.sin(t*1.7+p.tw));
+    const grad=pCtx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*8);
+    grad.addColorStop(0,`hsla(${p.hue},100%,80%,${a})`);
+    grad.addColorStop(1,'hsla(0,0%,100%,0)');
+    pCtx.beginPath();
+    pCtx.fillStyle=grad;
+    pCtx.arc(p.x,p.y,p.r*8,0,Math.PI*2);
+    pCtx.fill();
+  }
+}
+window.addEventListener('resize',()=>{resizeParticles();initParticles();});
+resizeParticles();initParticles();
+
 /* ── CORE PANEL MINI STARS ── */
 const cC=document.getElementById('core-canvas');
 const cCtx=cC&&cC.getContext('2d');
@@ -2125,9 +2259,11 @@ setTimeout(()=>{resizeCore();initCoreStars();},120);
 
 /* ── LOOP ── */
 let t=0;
-(function loop(){t+=.016;drawBg(t);drawCore(t);requestAnimationFrame(loop);})();
+(function loop(){t+=.016;drawBg(t);drawParticles(t);drawCore(t);requestAnimationFrame(loop);})();
 
 window.setAuthMode=(window.setAuthMode||function(){});
+if(!location.hash && document.querySelector('.nav-tab.active')) location.hash='#home';
+
 </script>
 </body>
 </html>
